@@ -3005,7 +3005,7 @@ class IssueLabeler {
                 }
             }
             if (!found)
-                yield this.SetLabel(issue, 'Invalid-IncompleteData/OrNotTrinityCore');
+                yield this.SetLabel(issue, 'Invalid-MissingHash/Commit');
             core.debug('SetMissingHashLabel end');
         });
     }
