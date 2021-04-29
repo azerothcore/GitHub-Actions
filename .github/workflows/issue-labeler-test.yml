@@ -10,6 +10,6 @@ jobs:
     steps:
     - name: Issue Labeler
       id: issue-labeler
-      uses: azerothcore/GitHub-Actions@issue-labeler-prod
+      uses: azerothcore/GitHub-Actions@issue-labeler-production
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
