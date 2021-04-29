@@ -2971,7 +2971,6 @@ class IssueLabeler {
             const payload = rawPayload;
             switch (payload.action) {
                 case 'opened':
-                    yield this.SetBranchLabel(payload.issue);
                     yield this.SetMissingHashLabel(payload.issue);
                     break;
                 default:
