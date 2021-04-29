@@ -4,7 +4,6 @@ on: # rebuild any PRs and master branch changes
   push:
     branches:
       - master
-      - issue-labeler
       - 'releases/*'
 
 jobs:
