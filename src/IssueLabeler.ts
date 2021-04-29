@@ -20,7 +20,6 @@ export class IssueLabeler {
     const payload = rawPayload as Webhooks.WebhookPayloadIssues
     switch (payload.action) {
       case 'opened':
-        await this.SetBranchLabel(payload.issue)
         await this.SetMissingHashLabel(payload.issue)
         break
       default:
