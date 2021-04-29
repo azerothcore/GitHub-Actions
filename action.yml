@@ -1,11 +1,10 @@
-name: 'Your name here'
-description: 'Provide a description here'
+name: 'AzerothCoreGitHubActions-issue-labeler'
+description: 'Issue labeler for AzerohCore-wotlk Repository'
 author: 'AzerothCore'
 inputs:
-  milliseconds: # change this
+  token:
+    description: 'GitHub token with access to the repository'
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
 runs:
   using: 'node12'
   main: 'dist/index.js'
