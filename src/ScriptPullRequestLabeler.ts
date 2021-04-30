@@ -38,8 +38,6 @@ export class ScriptPullRequestLabeler {
   ): Promise<void> {
     core.debug('SetScriptLabel start')
 
-    core.info(`Base is '${pr.base.ref}'`)
-
     await this.SetLabel(pr, 'Script')
     }
 
