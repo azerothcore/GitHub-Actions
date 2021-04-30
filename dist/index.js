@@ -8380,19 +8380,19 @@ class CorePullRequestLabeler {
             }
             switch (payload.action) {
                 case 'opened':
-                    yield this.SetCORELabel(payload.pull_request);
+                    yield this.SetDBLabel(payload.pull_request);
                     break;
                 default:
                     throw new Error(`Unhandled pr action ${payload.action}`);
             }
         });
     }
-    SetCORELabel(pr) {
+    SetDBLabel(pr) {
         return __awaiter(this, void 0, void 0, function* () {
-            core.debug('SetCORELabel start');
+            core.debug('SetDBLabel start');
             core.info(`Base is '${pr.base.ref}'`);
-             yield this.SetLabel(pr, 'CORE');
-            core.debug('SetCORELabel end');
+             yield this.SetLabel(pr, 'DB');
+            core.debug('SetDBLabel end');
         });
     }
     SetLabel(pr, label) {

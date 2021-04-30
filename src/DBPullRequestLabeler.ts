@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {Webhooks} from '@octokit/webhooks'
 
-export class CorePullRequestLabeler {
+export class DBPullRequestLabeler {
   private octokit: github.GitHub
   constructor(token: string) {
     this.octokit = new github.GitHub(token)
@@ -26,7 +26,7 @@ export class CorePullRequestLabeler {
 
     switch (payload.action) {
       case 'opened':
-        await this.SetCORELabel(payload.pull_request)
+        await this.SetDBLabel(payload.pull_request)
         break
       default:
         throw new Error(`Unhandled pr action ${payload.action}`)
@@ -40,7 +40,7 @@ export class CorePullRequestLabeler {
 
     core.info(`Base is '${pr.base.ref}'`)
 
-    await this.SetLabel(pr, 'CORE')
+    await this.SetLabel(pr, 'DB')
     }
 
     core.debug('SetBranchLabel end')
