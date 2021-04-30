@@ -8380,19 +8380,19 @@ class CorePullRequestLabeler {
             }
             switch (payload.action) {
                 case 'opened':
-                    yield this.SetCORELabel(payload.pull_request);
+                    yield this.SetScriptLabel(payload.pull_request);
                     break;
                 default:
                     throw new Error(`Unhandled pr action ${payload.action}`);
             }
         });
     }
-    SetCORELabel(pr) {
+    SetScriptLabel(pr) {
         return __awaiter(this, void 0, void 0, function* () {
-            core.debug('SetCORELabel start');
+            core.debug('SetScriptLabel start');
             core.info(`Base is '${pr.base.ref}'`);
-             yield this.SetLabel(pr, 'CORE');
-            core.debug('SetCORELabel end');
+             yield this.SetLabel(pr, 'Script');
+            core.debug('SetScriptLabel end');
         });
     }
     SetLabel(pr, label) {
@@ -8403,7 +8403,7 @@ class CorePullRequestLabeler {
         });
     }
 }
-exports.CorePullRequestLabeler = CorePullRequestLabeler;
+exports.ScriptPullRequestLabeler = ScriptPullRequestLabeler;
 
 
 /***/ }),

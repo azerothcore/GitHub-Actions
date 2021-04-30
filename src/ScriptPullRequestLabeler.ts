@@ -26,24 +26,24 @@ export class CorePullRequestLabeler {
 
     switch (payload.action) {
       case 'opened':
-        await this.SetCORELabel(payload.pull_request)
+        await this.SetScriptLabel(payload.pull_request)
         break
       default:
         throw new Error(`Unhandled pr action ${payload.action}`)
     }
   }
 
-  private async SetBranchLabel(
+  private async SetScriptLabel(
     pr: Webhooks.WebhookPayloadPullRequestPullRequest
   ): Promise<void> {
-    core.debug('SetBranchLabel start')
+    core.debug('SetScriptLabel start')
 
     core.info(`Base is '${pr.base.ref}'`)
 
-    await this.SetLabel(pr, 'CORE')
+    await this.SetLabel(pr, 'Script')
     }
 
-    core.debug('SetBranchLabel end')
+    core.debug('SetScriptLabel end')
   }
 
   private async SetLabel(
