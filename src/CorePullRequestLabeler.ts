@@ -33,17 +33,17 @@ export class CorePullRequestLabeler {
     }
   }
 
-  private async SetBranchLabel(
+  private async SetCORELabel(
     pr: Webhooks.WebhookPayloadPullRequestPullRequest
   ): Promise<void> {
-    core.debug('SetBranchLabel start')
+    core.debug('SetCORELabel start')
 
     core.info(`Base is '${pr.base.ref}'`)
 
     await this.SetLabel(pr, 'CORE')
     }
 
-    core.debug('SetBranchLabel end')
+    core.debug('SetCORELabel end')
   }
 
   private async SetLabel(
