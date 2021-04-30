@@ -2933,95 +2933,6 @@ module.exports = require("child_process");
 
 /***/ }),
 
-/***/ 131:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core = __importStar(__webpack_require__(470));
-const github = __importStar(__webpack_require__(469));
-class IssueLabeler {
-    constructor(token) {
-        this.octokit = new github.GitHub(token);
-    }
-    LabelCurrentContextIssue() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const context = github.context;
-            if (context.eventName !== 'issues')
-                throw new Error(`Event '${context.eventName}' is not supported`);
-            const rawPayload = github.context.payload;
-            core.debug(`rawPayload: ${JSON.stringify(rawPayload)}`);
-            const payload = rawPayload;
-            switch (payload.action) {
-                case 'opened':
-                    yield this.SetMissingHashLabel(payload.issue);
-                    break;
-                default:
-                    throw new Error(`Unhandled issue action ${payload.action}`);
-            }
-        });
-    }
-    SetMissingHashLabel(issue) {
-        return __awaiter(this, void 0, void 0, function* () {
-            core.debug('SetMissingHashLabel start');
-            const body = issue.body;
-            const regex = new RegExp('\\b[a-f0-9]{7,40}\\b', 'gi');
-            let matches = regex.exec(body);
-            let found = false;
-            while (matches !== null) {
-                const element = matches[0];
-                core.debug(`Checking '${element}' as valid commit SHA`);
-                matches = regex.exec(body);
-                try {
-                    yield this.octokit.request(`GET ${issue.repository_url}/commits/${element}`, {
-                        mediaType: {
-                            format: 'sha+json'
-                        }
-                    });
-                    core.debug(`Found valid commit SHA '${element}'`);
-                    found = true;
-                    break;
-                }
-                catch (error) {
-                    core.debug(`'${element}' is not a valid SHA commit`);
-                    core.debug(error);
-                }
-            }
-            if (!found)
-                yield this.SetLabel(issue, 'Invalid-MissingHash/Commit');
-            core.debug('SetMissingHashLabel end');
-        });
-    }
-    SetLabel(issue, label) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.octokit.request(`POST ${issue.labels_url.replace('{/name}', '')}`, {
-                labels: [label]
-            });
-        });
-    }
-}
-exports.IssueLabeler = IssueLabeler;
-
-
-/***/ }),
-
 /***/ 141:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -3599,14 +3510,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
-const IssueLabeler_1 = __webpack_require__(131);
+const PullRequestLabeler_1 = __webpack_require__(574);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             core.debug('Started');
             const token = core.getInput('token', { required: true });
-            const labeler = new IssueLabeler_1.IssueLabeler(token);
-            yield labeler.LabelCurrentContextIssue();
+            const labeler = new PullRequestLabeler_1.CorePullRequestLabeler(token);
+            yield labeler.LabelPullRequests();
             core.debug('Finished');
         }
         catch (error) {
@@ -8423,6 +8334,76 @@ function parse(command, args, options) {
 }
 
 module.exports = parse;
+
+
+/***/ }),
+
+/***/ 574:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const core = __importStar(__webpack_require__(470));
+const github = __importStar(__webpack_require__(469));
+class CorePullRequestLabeler {
+    constructor(token) {
+        this.octokit = new github.GitHub(token);
+    }
+    LabelPullRequests() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const context = github.context;
+            if (context.eventName !== 'pull_request_target')
+                throw new Error(`Event '${context.eventName}' is not supported`);
+            const rawPayload = context.payload;
+            core.debug(`rawPayload: ${JSON.stringify(rawPayload)}`);
+            const payload = rawPayload;
+            // disabled for forks
+            if (payload.repository.fork) {
+                return;
+            }
+            switch (payload.action) {
+                case 'opened':
+                    yield this.SetCORELabel(payload.pull_request);
+                    break;
+                default:
+                    throw new Error(`Unhandled pr action ${payload.action}`);
+            }
+        });
+    }
+    SetCORELabel(pr) {
+        return __awaiter(this, void 0, void 0, function* () {
+            core.debug('SetCORELabel start');
+            core.info(`Base is '${pr.base.ref}'`);
+             yield this.SetLabel(pr, 'CORE');
+            core.debug('SetCORELabel end');
+        });
+    }
+    SetLabel(pr, label) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.octokit.request(`POST ${pr.issue_url}/labels`, {
+                labels: [label]
+            });
+        });
+    }
+}
+exports.CorePullRequestLabeler = CorePullRequestLabeler;
 
 
 /***/ }),
