@@ -8362,7 +8362,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
-class CorePullRequestLabeler {
+class DBPullRequestLabeler {
     constructor(token) {
         this.octokit = new github.GitHub(token);
     }
@@ -8403,7 +8403,7 @@ class CorePullRequestLabeler {
         });
     }
 }
-exports.CorePullRequestLabeler = CorePullRequestLabeler;
+exports.DBPullRequestLabeler = DBPullRequestLabeler;
 
 
 /***/ }),
