@@ -8402,7 +8402,7 @@ class WorkflowPullRequestLabeler {
         });
     }
 }
-exports.CorePullRequestLabeler = CorePullRequestLabeler;
+exports.WorkflowPullRequestLabeler = WorkflowPullRequestLabeler;
 
 
 /***/ }),
