@@ -10,6 +10,25 @@ jobs:
     steps:
     - name: PR Labeler
       id: issue-labeler
-      uses: azerothcore/GitHub-Actions@core-labeler-1.0.2
+      uses: azerothcore/GitHub-Actions@core-labeler-2.0.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: PR Labeler
+      id: pr-labeler
+      uses: azerothcore/GitHub-Actions@workflow-labeler-2.0.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+
+    - name: PR Labeler
+      id: a-labeler
+      uses: azerothcore/GitHub-Actions@db-labeler-2.0.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: PR Labeler
+      id: b-labeler
+      uses: azerothcore/GitHub-Actions@script-labeler-2.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
