@@ -1,15 +1,15 @@
 on:
-  issues:
+  pull_request_target:
     types: [opened]
 
 jobs:
   issue_labeler:
     if: github.repository == 'azerothcore/GitHub-Actions'
     runs-on: ubuntu-latest
-    name: Issue Labeler
+    name: PR Labeler
     steps:
-    - name: Issue Labeler
+    - name: PR Labeler
       id: issue-labeler
-      uses: azerothcore/GitHub-Actions@issue-labeler-1.0.1
+      uses: azerothcore/GitHub-Actions@core-labeler-1.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
