@@ -8362,7 +8362,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
-class CorePullRequestLabeler {
+class ScriptPullRequestLabeler {
     constructor(token) {
         this.octokit = new github.GitHub(token);
     }
@@ -8390,7 +8390,6 @@ class CorePullRequestLabeler {
     SetScriptLabel(pr) {
         return __awaiter(this, void 0, void 0, function* () {
             core.debug('SetScriptLabel start');
-            core.info(`Base is '${pr.base.ref}'`);
              yield this.SetLabel(pr, 'Script');
             core.debug('SetScriptLabel end');
         });
