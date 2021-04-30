@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {Webhooks} from '@octokit/webhooks'
 
-export class CorePullRequestLabeler {
+export class ScriptPullRequestLabeler {
   private octokit: github.GitHub
   constructor(token: string) {
     this.octokit = new github.GitHub(token)
