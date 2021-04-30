@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {Webhooks} from '@octokit/webhooks'
 
-export class CorePullRequestLabeler {
+export class WorkflowPullRequestLabeler {
   private octokit: github.GitHub
   constructor(token: string) {
     this.octokit = new github.GitHub(token)
@@ -26,22 +26,22 @@ export class CorePullRequestLabeler {
 
     switch (payload.action) {
       case 'opened':
-        await this.SetCORELabel(payload.pull_request)
+        await this.SetWorkflowLabel(payload.pull_request)
         break
       default:
         throw new Error(`Unhandled pr action ${payload.action}`)
     }
   }
 
-  private async SetBranchLabel(
+  private async SetWorkflowLabel(
     pr: Webhooks.WebhookPayloadPullRequestPullRequest
   ): Promise<void> {
-    core.debug('SetBranchLabel start')
+    core.debug('SetWorkflowLabel start')
 
-    await this.SetLabel(pr, 'CORE')
+    await this.SetLabel(pr, 'Workflow')
     }
 
-    core.debug('SetBranchLabel end')
+    core.debug('SetWorkflowLabel end')
   }
 
   private async SetLabel(

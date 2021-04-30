@@ -8362,7 +8362,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
-class CorePullRequestLabeler {
+class WorkflowPullRequestLabeler {
     constructor(token) {
         this.octokit = new github.GitHub(token);
     }
@@ -8380,19 +8380,18 @@ class CorePullRequestLabeler {
             }
             switch (payload.action) {
                 case 'opened':
-                    yield this.SetCORELabel(payload.pull_request);
+                    yield this.SetWorkflowLabel(payload.pull_request);
                     break;
                 default:
                     throw new Error(`Unhandled pr action ${payload.action}`);
             }
         });
     }
-    SetCORELabel(pr) {
+    SetWorkflowLabel(pr) {
         return __awaiter(this, void 0, void 0, function* () {
-            core.debug('SetCORELabel start');
-            core.info(`Base is '${pr.base.ref}'`);
+            core.debug('SetWorkflowLabel start');
              yield this.SetLabel(pr, 'CORE');
-            core.debug('SetCORELabel end');
+            core.debug('SetWorkflowLabel end');
         });
     }
     SetLabel(pr, label) {
