@@ -38,8 +38,6 @@ export class CorePullRequestLabeler {
   ): Promise<void> {
     core.debug('SetBranchLabel start')
 
-    core.info(`Base is '${pr.base.ref}'`)
-
     await this.SetLabel(pr, 'CORE')
     }
 
