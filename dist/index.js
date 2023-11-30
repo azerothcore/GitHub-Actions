@@ -3005,7 +3005,7 @@ class IssueLabeler {
                 }
             }
             if (!found)
-                yield this.SetLabel(issue, 'Invalid-MissingHash/Commit');
+                yield this.SetLabel(issue, 'Invalid-MissingHash/Commit/NotAC');
             core.debug('SetMissingHashLabel end');
         });
     }
